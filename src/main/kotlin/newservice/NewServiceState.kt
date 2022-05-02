@@ -1,27 +1,27 @@
 package newservice
 
 import androidx.compose.runtime.*
-import java.io.File
+import newservice.usecase.IsValidProjectPath
+import newservice.usecase.IsValidProjectPathUseCase
+import newservice.usecase.ProjectValidationResult
 
 @Composable
-fun rememberScreenState(): NewServiceState {
-    return remember { NewServiceState() }
+fun rememberScreenState(
+    isValidProjectPath: IsValidProjectPath = IsValidProjectPathUseCase()
+): NewServiceState {
+    return remember { NewServiceState(isValidProjectPath) }
 }
 
-class NewServiceState {
+class NewServiceState(
+    isValidProjectPath: IsValidProjectPath
+) {
     var selectedPath: String? by mutableStateOf(null)
         private set
-    val validProjectPath by derivedStateOf { selectedPath?.let { isValidProjectPath(it) } ?: false }
+    val validProjectPath by derivedStateOf {
+        selectedPath?.let { isValidProjectPath(it) != ProjectValidationResult.DoesNotExist } ?: false
+    }
 
     fun onPath(selectedFile: String) {
         selectedPath = selectedFile
     }
-}
-
-private fun isValidProjectPath(path: String): Boolean {
-    val projectPath = if (path.endsWith("/")) path else "$path/"
-    val settingsPath = projectPath + "settings.gradle"
-    val settingsFile = File(settingsPath)
-    val settingsKtsFile = File("$settingsPath.kts")
-    return settingsFile.exists() || settingsKtsFile.exists()
 }
