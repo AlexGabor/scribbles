@@ -2,6 +2,8 @@ package newservice
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,5 +20,9 @@ fun NewServiceScreen(
         SelectDirectoryButton(onDirectoryResult = { directoryResult ->
             if (directoryResult is DirectoryResult.Selection) state.onPath(directoryResult.path)
         })
+
+        if (state.selectedPath != null && !state.validProjectPath) {
+            Text("Invalid Project Path")
+        }
     }
 }
