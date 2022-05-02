@@ -9,4 +9,8 @@ fun rememberScreenState(): NewServiceState {
 
 class NewServiceState {
     var selectedPath: String? by mutableStateOf(null)
+
+    fun onPath(selectedFile: String) {
+        selectedPath = selectedFile
+    }
 }
