@@ -2,8 +2,6 @@ package newservice
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,6 +21,10 @@ fun NewServiceScreen(
 
         if (state.selectedPath != null && !state.validProjectPath) {
             Text("Invalid Project Path")
+        }
+
+        if (state.validProjectPath) {
+            Text(state.packageName.toString())
         }
     }
 }
