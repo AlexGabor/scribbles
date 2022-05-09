@@ -22,7 +22,7 @@ class NewServiceState(
     findPackageName: FindApplicationPackage,
     private val createSubprojects: CreateSubprojects,
 ) {
-    var selectedPath: String? by mutableStateOf("/Users/alexgabor/StudioProjects/cookiecutter-template")
+    var selectedPath: String? by mutableStateOf(null)
         private set
     val validProjectPath: Boolean by derivedStateOf {
         selectedPath?.let { isValidProjectPath(it) != ProjectValidationResult.DoesNotExist } ?: false
@@ -36,7 +36,7 @@ class NewServiceState(
         } else null
     }
 
-    var serviceName: String by mutableStateOf("")
+    var serviceName: String by mutableStateOf(":newService")
         private set
 
     var subprojects: Map<Subproject, SubprojectConfiguration> by mutableStateOf(
@@ -66,7 +66,7 @@ class NewServiceState(
     }
 
     fun onCreate() {
-        createSubprojects(selectedPath!!, serviceName, "${packageName!!}.$serviceName", subprojects)
+        createSubprojects(selectedPath!!, serviceName, packageName!!, subprojects)
     }
 }
 

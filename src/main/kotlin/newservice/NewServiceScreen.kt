@@ -44,9 +44,9 @@ fun NewServiceScreen(
             onAndroidChecked = { checked -> state.onAndroidChecked(Subproject.Implementation, checked) }
         )
         GradleSubprojectField(
-            isAndroid = state.subprojects[Subproject.Implementation]!!.isAndroid,
+            isAndroid = state.subprojects[Subproject.Test]!!.isAndroid,
             suffix = Subproject.Test.suffix,
-            onAndroidChecked = { }
+            onAndroidChecked = { checked -> state.onAndroidChecked(Subproject.Test, checked) }
         )
 
         Button(
