@@ -3,6 +3,7 @@ package newservice
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Button
 import androidx.compose.material.Checkbox
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -45,8 +46,15 @@ fun NewServiceScreen(
         GradleSubprojectField(
             isAndroid = state.subprojects[Subproject.Implementation]!!.isAndroid,
             suffix = Subproject.Test.suffix,
-            onAndroidChecked = {  }
+            onAndroidChecked = { }
         )
+
+        Button(
+            onClick = { state.onCreate() },
+            enabled = state.validServiceState
+        ) {
+            Text("Create")
+        }
     }
 }
 

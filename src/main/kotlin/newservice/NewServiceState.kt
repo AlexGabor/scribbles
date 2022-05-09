@@ -6,26 +6,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import newservice.usecase.ApplicationPackageResult
-import newservice.usecase.FindApplicationPackage
-import newservice.usecase.FindApplicationPackageUseCase
-import newservice.usecase.IsValidProjectPath
-import newservice.usecase.IsValidProjectPathUseCase
-import newservice.usecase.ProjectValidationResult
+import newservice.usecase.*
 
 @Composable
 fun rememberScreenState(
     isValidProjectPath: IsValidProjectPath = IsValidProjectPathUseCase(),
     findPackageName: FindApplicationPackage = FindApplicationPackageUseCase(),
+    createSubprojects: CreateSubprojects = CreateSubprojectsUseCase(),
 ): NewServiceState {
-    return remember { NewServiceState(isValidProjectPath, findPackageName) }
+    return remember { NewServiceState(isValidProjectPath, findPackageName, createSubprojects) }
 }
 
 class NewServiceState(
     isValidProjectPath: IsValidProjectPath,
     findPackageName: FindApplicationPackage,
+    private val createSubprojects: CreateSubprojects,
 ) {
-    var selectedPath: String? by mutableStateOf(null)
+    var selectedPath: String? by mutableStateOf("/Users/alexgabor/StudioProjects/cookiecutter-template")
         private set
     val validProjectPath: Boolean by derivedStateOf {
         selectedPath?.let { isValidProjectPath(it) != ProjectValidationResult.DoesNotExist } ?: false
@@ -50,6 +47,10 @@ class NewServiceState(
         )
     )
 
+    val validServiceState: Boolean by derivedStateOf {
+        packageName != null
+    }
+
     fun onPath(selectedFile: String) {
         selectedPath = selectedFile
     }
@@ -62,6 +63,10 @@ class NewServiceState(
         subprojects = subprojects.toMutableMap().apply {
             this[subproject] = this[subproject]!!.copy(isAndroid = checked)
         }
+    }
+
+    fun onCreate() {
+        createSubprojects(selectedPath!!, serviceName, "${packageName!!}.$serviceName", subprojects)
     }
 }
 
