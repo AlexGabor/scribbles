@@ -22,7 +22,7 @@ class NewServiceState(
     findPackageName: FindApplicationPackage,
     private val createSubprojects: CreateSubprojects,
 ) {
-    var selectedPath: String? by mutableStateOf(null)
+    var selectedPath: String? by mutableStateOf(System.getProperty("user.dir"))
         private set
     val validProjectPath: Boolean by derivedStateOf {
         selectedPath?.let { isValidProjectPath(it) != ProjectValidationResult.DoesNotExist } ?: false
