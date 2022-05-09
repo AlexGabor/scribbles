@@ -39,7 +39,38 @@ class NewServiceState(
         } else null
     }
 
+    var serviceName: String by mutableStateOf("")
+        private set
+
+    var subprojects: Map<Subproject, SubprojectConfiguration> by mutableStateOf(
+        mapOf(
+            Subproject.Api to SubprojectConfiguration(false),
+            Subproject.Implementation to SubprojectConfiguration(false),
+            Subproject.Test to SubprojectConfiguration(false),
+        )
+    )
+
     fun onPath(selectedFile: String) {
         selectedPath = selectedFile
     }
+
+    fun onServiceName(name: String) {
+        serviceName = name
+    }
+
+    fun onAndroidChecked(subproject: Subproject, checked: Boolean) {
+        subprojects = subprojects.toMutableMap().apply {
+            this[subproject] = this[subproject]!!.copy(isAndroid = checked)
+        }
+    }
+}
+
+data class SubprojectConfiguration(
+    val isAndroid: Boolean,
+)
+
+enum class Subproject(val suffix: String) {
+    Api("api"),
+    Implementation("implementation"),
+    Test("test"),
 }
