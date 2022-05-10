@@ -18,7 +18,7 @@ Scribbles can generate for you the following structure of gradle modules:
 
 It adds them to `settings.gradle`
 
-It also adds `build.gradle` files for each modules and optionally an `AndroidManifest.xml`
+It also adds `build.gradle` files for each module and optionally an `AndroidManifest.xml`
 
 > Note: It only supports gradle.kts
 
