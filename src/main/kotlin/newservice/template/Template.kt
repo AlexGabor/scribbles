@@ -46,9 +46,7 @@ object Template {
 
     val Manifest = """
     <?xml version="1.0" encoding="utf-8"?>
-    <manifest package="${Field.projectPackageName}.${Field.suffix}">
-    
-    </manifest>
+    <manifest package="${Field.projectPackageName}.${Field.suffix}" />
     """.trimIndent()
 
     val GradleAndroidApi = "$GradleAndroidPlugins\n\n$GradleApiDependencies\n"
