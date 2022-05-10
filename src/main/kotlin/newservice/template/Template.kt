@@ -1,11 +1,16 @@
 package newservice.template
 
+import newservice.model.NewService
+import newservice.model.Project
+import newservice.model.Subproject
+
 object Template {
 
     object Field {
-        const val serviceName = "{serviceName}"
-        const val packageName = "{packageName}"
+        const val serviceGradleName = "{serviceGradleName}"
+        const val projectPackageName = "{projectPackageName}"
         const val suffix = "{suffix}"
+        const val serviceLastNameSegment = "{serviceLastNameSegment}"
     }
 
     val GradleAndroidPlugins = """
@@ -29,19 +34,19 @@ object Template {
 
     val GradleImplementationDependencies = """
     dependencies {
-        implementation(project("${Field.serviceName}-api"))
+        implementation(project("${Field.serviceGradleName}:${Field.serviceLastNameSegment}-api"))
     }
     """.trimIndent()
 
     val GradleTestDependencies = """
     dependencies {
-        implementation(project("${Field.serviceName}-implementation"))
+        implementation(project("${Field.serviceGradleName}:${Field.serviceLastNameSegment}-implementation"))
     }
     """.trimIndent()
 
     val Manifest = """
     <?xml version="1.0" encoding="utf-8"?>
-    <manifest package="${Field.packageName}.${Field.suffix}">
+    <manifest package="${Field.projectPackageName}.${Field.suffix}">
     
     </manifest>
     """.trimIndent()
@@ -62,11 +67,12 @@ object Template {
 }
 
 fun String.fillTemplate(
-    serviceName: String,
-    packageName: String,
-    suffix: String,
+    project: Project,
+    newService: NewService,
+    subproject: Subproject,
 ): String {
-    return this.replace(Template.Field.serviceName, serviceName)
-        .replace(Template.Field.packageName, packageName)
-        .replace(Template.Field.suffix, suffix)
+    return this.replace(Template.Field.serviceGradleName, newService.gradleName)
+        .replace(Template.Field.serviceLastNameSegment, newService.lastNameSegment)
+        .replace(Template.Field.projectPackageName, project.packageName)
+        .replace(Template.Field.suffix, subproject.suffix)
 }

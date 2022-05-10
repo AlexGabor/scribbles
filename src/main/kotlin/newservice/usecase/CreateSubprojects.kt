@@ -27,22 +27,16 @@ class CreateSubprojectsUseCase : CreateSubprojects {
     }
 
     private fun createSubproject(project: Project, newService: NewService, subproject: Subproject) {
-        val servicePath = newService.gradleNameAsPath
-        val serviceAbsolutePathWithSuffix = "${project.absolutePath}$servicePath/${newService.lastNameSegment}-${subproject.suffix}/"
+        val serviceAbsolutePathWithSuffix = "${project.absolutePath}${subproject.getGradleNameAsPath(newService)}/"
         createPackagePath(serviceAbsolutePathWithSuffix, project, newService)
         createGradleFile(
             fileName = "$serviceAbsolutePathWithSuffix/build.gradle.kts",
-            subproject = subproject,
-            isAndroid = subproject.isAndroid,
-            serviceName = newService.gradleName,
-            packageName = project.packageName,
+            project, newService, subproject
         )
         if (subproject.isAndroid) {
             createManifestFile(
-                fileName = "$serviceAbsolutePathWithSuffix/src/main/AndroidManifest.xml",
-                subproject = subproject,
-                serviceName = newService.gradleName,
-                packageName = project.packageName,
+                absoluteFileName = "$serviceAbsolutePathWithSuffix/src/main/AndroidManifest.xml",
+                project, newService, subproject
             )
         }
     }
@@ -53,42 +47,33 @@ class CreateSubprojectsUseCase : CreateSubprojects {
 
     private fun createGradleFile(
         fileName: String,
+        project: Project,
+        newService: NewService,
         subproject: Subproject,
-        isAndroid: Boolean,
-        serviceName: String,
-        packageName: String,
     ) {
         val template = when (subproject.suffix) {
-            PredefinedSubproject.Api.suffix -> if (isAndroid) Template.GradleAndroidApi else Template.GradleJvmApi
-            PredefinedSubproject.Implementation.suffix -> if (isAndroid) Template.GradleAndroidImplementation else Template.GradleJvmImplementation
-            PredefinedSubproject.Test.suffix -> if (isAndroid) Template.GradleAndroidTest else Template.GradleJvmTest
+            PredefinedSubproject.Api.suffix -> if (subproject.isAndroid) Template.GradleAndroidApi else Template.GradleJvmApi
+            PredefinedSubproject.Implementation.suffix -> if (subproject.isAndroid) Template.GradleAndroidImplementation else Template.GradleJvmImplementation
+            PredefinedSubproject.Test.suffix -> if (subproject.isAndroid) Template.GradleAndroidTest else Template.GradleJvmTest
             else -> Template.GradleDefault
         }
         val file = File(fileName)
         file.createNewFile()
         file.writeText(
-            template.fillTemplate(
-                serviceName = serviceName,
-                packageName = packageName,
-                suffix = subproject.suffix
-            )
+            template.fillTemplate(project, newService, subproject)
         )
     }
 
     private fun createManifestFile(
-        fileName: String,
+        absoluteFileName: String,
+        project: Project,
+        newService: NewService,
         subproject: Subproject,
-        serviceName: String,
-        packageName: String,
     ) {
-        val file = File(fileName)
+        val file = File(absoluteFileName)
         file.createNewFile()
         file.writeText(
-            Template.Manifest.fillTemplate(
-                serviceName = serviceName,
-                packageName = packageName,
-                suffix = subproject.suffix
-            )
+            Template.Manifest.fillTemplate(project, newService, subproject)
         )
     }
 
@@ -96,7 +81,7 @@ class CreateSubprojectsUseCase : CreateSubprojects {
         project: Project,
         newService: NewService,
     ) {
-        val subprojectNames = newService.subprojects.map { "${newService.gradleName}:${newService.lastNameSegment}-${it.suffix}" }
+        val subprojectNames = newService.subprojects.map { it.getGradleName(newService) }
         val settingsFile = getSettingsFile(project.absolutePath)
         val includeList = subprojectNames.joinToString(separator = ", ") { "\"$it\"" }
         settingsFile.appendText(

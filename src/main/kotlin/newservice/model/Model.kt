@@ -17,18 +17,11 @@ data class Subproject(
     val suffix: String,
     val isAndroid: Boolean = false,
 ) {
-    override fun hashCode(): Int = suffix.hashCode()
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+    fun getGradleName(service: NewService): String = "${service.gradleName}:${service.lastNameSegment}-$suffix"
 
-        other as Subproject
-
-        if (suffix != other.suffix) return false
-        if (isAndroid != other.isAndroid) return false
-
-        return true
+    fun getGradleNameAsPath(service: NewService): String {
+        return getGradleName(service).split(":").joinToString(separator = "/") { it }
     }
 }
 
