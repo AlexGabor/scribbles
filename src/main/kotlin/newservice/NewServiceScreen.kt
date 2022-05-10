@@ -28,10 +28,13 @@ fun NewServiceScreen(
         }
 
         if (state.validProjectPath) {
-            Text(state.packageName.toString())
+            Text(state.packageName ?: "Could not find package name")
         }
 
         TextField(state.serviceName, { state.onServiceName(it) })
+        if (!state.validServiceName) {
+            Text("Invalid gradle module name")
+        }
 
         GradleSubprojectField(
             isAndroid = state.subprojects[Subproject.Api]!!.isAndroid,

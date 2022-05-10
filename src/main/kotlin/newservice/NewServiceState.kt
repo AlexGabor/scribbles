@@ -12,14 +12,16 @@ import newservice.usecase.*
 fun rememberScreenState(
     isValidProjectPath: IsValidProjectPath = IsValidProjectPathUseCase(),
     findPackageName: FindApplicationPackage = FindApplicationPackageUseCase(),
+    isValidServiceName: IsValidServiceName = IsValidServiceNameUseCase(),
     createSubprojects: CreateSubprojects = CreateSubprojectsUseCase(),
 ): NewServiceState {
-    return remember { NewServiceState(isValidProjectPath, findPackageName, createSubprojects) }
+    return remember { NewServiceState(isValidProjectPath, findPackageName, isValidServiceName, createSubprojects) }
 }
 
 class NewServiceState(
     isValidProjectPath: IsValidProjectPath,
     findPackageName: FindApplicationPackage,
+    isValidServiceName: IsValidServiceName,
     private val createSubprojects: CreateSubprojects,
 ) {
     var selectedPath: String? by mutableStateOf(System.getProperty("user.dir"))
@@ -38,6 +40,7 @@ class NewServiceState(
 
     var serviceName: String by mutableStateOf(":newService")
         private set
+    val validServiceName: Boolean by derivedStateOf { isValidServiceName(serviceName) }
 
     var subprojects: Map<Subproject, SubprojectConfiguration> by mutableStateOf(
         mapOf(
