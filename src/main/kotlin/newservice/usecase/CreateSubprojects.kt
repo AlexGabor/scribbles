@@ -7,6 +7,7 @@ import newservice.model.Subproject
 import newservice.template.Template
 import newservice.template.fillTemplate
 import java.io.File
+import newservice.converter.kebabToCamelCase
 
 fun interface CreateSubprojects {
     operator fun invoke(
@@ -42,7 +43,7 @@ class CreateSubprojectsUseCase : CreateSubprojects {
     }
 
     private fun createPackagePath(serviceAbsolutePathWithSuffix: String, project: Project, newService: NewService) {
-        File("${serviceAbsolutePathWithSuffix}src/main/java/${project.packageNameAsPath}/${newService.lastNameSegment}").mkdirs()
+        File("${serviceAbsolutePathWithSuffix}src/main/java/${project.packageNameAsPath}/${newService.lastNameSegment.kebabToCamelCase()}").mkdirs()
     }
 
     private fun createGradleFile(

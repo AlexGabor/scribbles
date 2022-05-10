@@ -1,5 +1,6 @@
 package newservice.template
 
+import newservice.converter.kebabToCamelCase
 import newservice.model.NewService
 import newservice.model.Project
 import newservice.model.Subproject
@@ -11,6 +12,7 @@ object Template {
         const val projectPackageName = "{projectPackageName}"
         const val suffix = "{suffix}"
         const val serviceLastNameSegment = "{serviceLastNameSegment}"
+        const val serviceLastNameSegmentAsPackage = "{serviceLastNameSegmentAsPackage}"
     }
 
     val GradleAndroidPlugins = """
@@ -46,7 +48,7 @@ object Template {
 
     val Manifest = """
     <?xml version="1.0" encoding="utf-8"?>
-    <manifest package="${Field.projectPackageName}.${Field.suffix}" />
+    <manifest package="${Field.projectPackageName}.${Field.serviceLastNameSegmentAsPackage}.${Field.suffix}" />
     """.trimIndent()
 
     val GradleAndroidApi = "$GradleAndroidPlugins\n\n$GradleApiDependencies\n"
@@ -71,6 +73,7 @@ fun String.fillTemplate(
 ): String {
     return this.replace(Template.Field.serviceGradleName, newService.gradleName)
         .replace(Template.Field.serviceLastNameSegment, newService.lastNameSegment)
+        .replace(Template.Field.serviceLastNameSegmentAsPackage, newService.lastNameSegment.kebabToCamelCase())
         .replace(Template.Field.projectPackageName, project.packageName)
         .replace(Template.Field.suffix, subproject.suffix)
 }
