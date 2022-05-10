@@ -22,7 +22,7 @@ import newservice.usecase.IsValidServiceNameUseCase
 import newservice.usecase.ProjectValidationResult
 
 @Composable
-fun rememberScreenState(
+fun rememberNewServiceScreenState(
     isValidProjectPath: IsValidProjectPath = IsValidProjectPathUseCase(),
     findPackageName: FindApplicationPackage = FindApplicationPackageUseCase(),
     isValidServiceName: IsValidServiceName = IsValidServiceNameUseCase(),
@@ -37,7 +37,7 @@ class NewServiceState(
     isValidServiceName: IsValidServiceName,
     private val createSubprojects: CreateSubprojects,
 ) {
-    var selectedPath: String? by mutableStateOf("C:\\Users\\alexd\\StudioProjects\\cookiecutter-template")
+    var selectedPath: String? by mutableStateOf(null)
         private set
     val validProjectPath: Boolean by derivedStateOf {
         selectedPath?.let { isValidProjectPath(it) != ProjectValidationResult.DoesNotExist } ?: false

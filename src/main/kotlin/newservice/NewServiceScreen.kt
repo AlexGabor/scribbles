@@ -15,10 +15,10 @@ import directorybrowser.SelectDirectoryButton
 
 @Composable
 fun NewServiceScreen(
-    state: NewServiceState = rememberScreenState(),
+    state: NewServiceState = rememberNewServiceScreenState(),
 ) {
     Column(Modifier.fillMaxSize()) {
-        Text(state.selectedPath ?: "Nothing")
+        Text(state.selectedPath ?: "No project selected")
         SelectDirectoryButton(onDirectoryResult = { directoryResult ->
             if (directoryResult is DirectoryResult.Selection) state.onPath(directoryResult.path)
         })
