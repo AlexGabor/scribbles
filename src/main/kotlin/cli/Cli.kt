@@ -1,20 +1,18 @@
 package cli
 
 
-fun parseArgs(args: Array<String>): CliArgsResult = when {
-    args.size == 1 && args[0] == "newService" -> CliArgsResult.ShowWindow(CliValues.NewService())
-    args.size == 3 && args[0] == "newService" && args[1] == "-p" -> CliArgsResult.ShowWindow(
-        CliValues.NewService(projectPath = args[2])
-    )
-    else -> CliArgsResult.ShowWindow(CliValues.Root)
+fun parseArgs(args: Array<String>): CliValues = CliValues(
+    projectPath = findProjectPath(args)
+)
+
+fun findProjectPath(args: Array<String>): String? {
+    for ((index, arg) in args.withIndex()) {
+        if (arg == "-p" && index < args.size - 1)
+            return args[index + 1]
+    }
+    return null
 }
 
-sealed class CliArgsResult {
-    class ShowWindow(val values: CliValues) : CliArgsResult()
-    object Exit : CliArgsResult()
-}
-
-sealed class CliValues {
-    class NewService(val projectPath: String? = null) : CliValues()
-    object Root : CliValues()
-}
+data class CliValues(
+    val projectPath: String? = null,
+)

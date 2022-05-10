@@ -1,4 +1,3 @@
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
@@ -15,14 +14,15 @@ fun applicationWindow(cliValues: CliValues) = application {
 }
 
 @Composable
-@Preview
 fun ScribblesApp(cliValues: CliValues) {
     ScribblesTheme {
-        when (cliValues) {
-            is CliValues.NewService -> NewServiceScreen(rememberNewServiceScreenState().apply {
-                onPath(cliValues.projectPath ?: System.getProperty("user.dir"))
-            })
-            CliValues.Root -> NewServiceScreen()
-        }
+        NewServiceScreen(cliValues)
     }
+}
+
+@Composable
+fun NewServiceScreen(cliValues: CliValues) {
+    NewServiceScreen(rememberNewServiceScreenState().apply {
+        onPath(cliValues.projectPath ?: System.getProperty("user.dir"))
+    })
 }
