@@ -6,6 +6,6 @@ fun interface IsValidServiceName {
 
 class IsValidServiceNameUseCase : IsValidServiceName {
     override fun invoke(name: String): Boolean {
-        return name.matches(Regex("(:[a-zA-Z-]+)+"))
+        return name.matches(Regex("(:[a-zA-Z0-9_-]+)+"))
     }
 }

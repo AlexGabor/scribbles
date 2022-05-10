@@ -57,6 +57,8 @@ object Template {
     val GradleJvmImplementation = "$GradleJvmPlugins\n\n$GradleImplementationDependencies\n"
 
     val GradleJvmTest = "$GradleJvmPlugins\n\n$GradleTestDependencies\n"
+
+    val GradleDefault = "$GradleJvmPlugins\n\n$GradleApiDependencies\n"
 }
 
 fun String.fillTemplate(

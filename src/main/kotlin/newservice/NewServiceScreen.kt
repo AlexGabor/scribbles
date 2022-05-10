@@ -36,21 +36,13 @@ fun NewServiceScreen(
             Text("Invalid gradle module name")
         }
 
-        GradleSubprojectField(
-            isAndroid = state.subprojects[Subproject.Api]!!.isAndroid,
-            suffix = Subproject.Api.suffix,
-            onAndroidChecked = { checked -> state.onAndroidChecked(Subproject.Api, checked) }
-        )
-        GradleSubprojectField(
-            isAndroid = state.subprojects[Subproject.Implementation]!!.isAndroid,
-            suffix = Subproject.Implementation.suffix,
-            onAndroidChecked = { checked -> state.onAndroidChecked(Subproject.Implementation, checked) }
-        )
-        GradleSubprojectField(
-            isAndroid = state.subprojects[Subproject.Test]!!.isAndroid,
-            suffix = Subproject.Test.suffix,
-            onAndroidChecked = { checked -> state.onAndroidChecked(Subproject.Test, checked) }
-        )
+        for (subproject in state.subprojects) {
+            GradleSubprojectField(
+                isAndroid = subproject.isAndroid,
+                suffix = subproject.suffix,
+                onAndroidChecked = { checked -> state.onAndroidChecked(subproject, checked) }
+            )
+        }
 
         Button(
             onClick = { state.onCreate() },

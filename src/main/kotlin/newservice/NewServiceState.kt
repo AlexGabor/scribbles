@@ -6,7 +6,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import newservice.usecase.*
+import newservice.model.NewService
+import newservice.model.PredefinedSubproject
+import newservice.model.Project
+import newservice.model.Subproject
+import newservice.usecase.ApplicationPackageResult
+import newservice.usecase.CreateSubprojects
+import newservice.usecase.CreateSubprojectsUseCase
+import newservice.usecase.FindApplicationPackage
+import newservice.usecase.FindApplicationPackageUseCase
+import newservice.usecase.IsValidProjectPath
+import newservice.usecase.IsValidProjectPathUseCase
+import newservice.usecase.IsValidServiceName
+import newservice.usecase.IsValidServiceNameUseCase
+import newservice.usecase.ProjectValidationResult
 
 @Composable
 fun rememberScreenState(
@@ -24,7 +37,7 @@ class NewServiceState(
     isValidServiceName: IsValidServiceName,
     private val createSubprojects: CreateSubprojects,
 ) {
-    var selectedPath: String? by mutableStateOf(System.getProperty("user.dir"))
+    var selectedPath: String? by mutableStateOf("C:\\Users\\alexd\\StudioProjects\\cookiecutter-template")
         private set
     val validProjectPath: Boolean by derivedStateOf {
         selectedPath?.let { isValidProjectPath(it) != ProjectValidationResult.DoesNotExist } ?: false
@@ -42,16 +55,16 @@ class NewServiceState(
         private set
     val validServiceName: Boolean by derivedStateOf { isValidServiceName(serviceName) }
 
-    var subprojects: Map<Subproject, SubprojectConfiguration> by mutableStateOf(
-        mapOf(
-            Subproject.Api to SubprojectConfiguration(false),
-            Subproject.Implementation to SubprojectConfiguration(false),
-            Subproject.Test to SubprojectConfiguration(false),
+    var subprojects: List<Subproject> by mutableStateOf(
+        listOf(
+            Subproject(PredefinedSubproject.Api.suffix),
+            Subproject(PredefinedSubproject.Implementation.suffix),
+            Subproject(PredefinedSubproject.Test.suffix),
         )
     )
 
     val validServiceState: Boolean by derivedStateOf {
-        packageName != null
+        selectedPath != null && packageName != null
     }
 
     fun onPath(selectedFile: String) {
@@ -63,22 +76,15 @@ class NewServiceState(
     }
 
     fun onAndroidChecked(subproject: Subproject, checked: Boolean) {
-        subprojects = subprojects.toMutableMap().apply {
-            this[subproject] = this[subproject]!!.copy(isAndroid = checked)
+        subprojects = subprojects.map {
+            if (it == subproject) it.copy(isAndroid = checked) else it
         }
     }
 
     fun onCreate() {
-        createSubprojects(selectedPath!!, serviceName, packageName!!, subprojects)
+        createSubprojects(
+            project = Project(selectedPath!!, packageName!!),
+            newService = NewService(serviceName, subprojects)
+        )
     }
-}
-
-data class SubprojectConfiguration(
-    val isAndroid: Boolean,
-)
-
-enum class Subproject(val suffix: String) {
-    Api("api"),
-    Implementation("implementation"),
-    Test("test"),
 }
