@@ -1,4 +1,4 @@
-package newservice.usecase
+package newService.usecase
 
 fun interface IsValidServiceName {
     operator fun invoke(name: String): Boolean

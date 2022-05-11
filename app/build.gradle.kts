@@ -7,6 +7,8 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":ui:theme"))
+    implementation(project(":feature:new-service"))
     testImplementation(kotlin("test"))
     implementation(compose.desktop.currentOs)
 }

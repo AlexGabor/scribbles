@@ -1,4 +1,4 @@
-package newservice.usecase
+package newService.usecase
 
 import java.io.File
 

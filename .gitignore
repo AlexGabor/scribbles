@@ -12,7 +12,7 @@
 /captures
 .cxx
 
-### Android template
+### Android newService.template
 # Built application files
 *.apk
 *.aar

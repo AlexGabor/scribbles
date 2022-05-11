@@ -1,4 +1,4 @@
-package newservice
+package newService
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -6,20 +6,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import newservice.model.NewService
-import newservice.model.PredefinedSubproject
-import newservice.model.Project
-import newservice.model.Subproject
-import newservice.usecase.ApplicationPackageResult
-import newservice.usecase.CreateSubprojects
-import newservice.usecase.CreateSubprojectsUseCase
-import newservice.usecase.FindApplicationPackage
-import newservice.usecase.FindApplicationPackageUseCase
-import newservice.usecase.IsValidProjectPath
-import newservice.usecase.IsValidProjectPathUseCase
-import newservice.usecase.IsValidServiceName
-import newservice.usecase.IsValidServiceNameUseCase
-import newservice.usecase.ProjectValidationResult
+import newService.model.NewService
+import newService.model.PredefinedSubproject
+import newService.model.Project
+import newService.model.Subproject
+import newService.usecase.ApplicationPackageResult
+import newService.usecase.CreateSubprojects
+import newService.usecase.CreateSubprojectsUseCase
+import newService.usecase.FindApplicationPackage
+import newService.usecase.FindApplicationPackageUseCase
+import newService.usecase.IsValidProjectPath
+import newService.usecase.IsValidProjectPathUseCase
+import newService.usecase.IsValidServiceName
+import newService.usecase.IsValidServiceNameUseCase
+import newService.usecase.ProjectValidationResult
 
 @Composable
 fun rememberNewServiceScreenState(

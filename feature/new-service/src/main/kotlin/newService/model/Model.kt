@@ -1,4 +1,4 @@
-package newservice.model
+package newService.model
 
 class Project(absolutePath: String, val packageName: String) {
     val absolutePath: String = if (absolutePath.endsWith("/")) absolutePath else "$absolutePath/"

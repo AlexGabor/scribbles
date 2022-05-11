@@ -2,8 +2,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import cli.CliValues
-import newservice.NewServiceScreen
-import newservice.rememberNewServiceScreenState
+import newService.rememberNewServiceScreenState
+import newService.NewServiceScreen
 import theme.ScribblesTheme
 
 

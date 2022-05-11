@@ -1,13 +1,13 @@
-package newservice.usecase
+package newService.usecase
 
-import newservice.model.NewService
-import newservice.model.PredefinedSubproject
-import newservice.model.Project
-import newservice.model.Subproject
-import newservice.template.Template
-import newservice.template.fillTemplate
+import newService.model.NewService
+import newService.model.PredefinedSubproject
+import newService.model.Project
+import newService.model.Subproject
+import newService.template.Template
+import newService.template.fillTemplate
 import java.io.File
-import newservice.converter.kebabToCamelCase
+import newService.converter.kebabToCamelCase
 
 fun interface CreateSubprojects {
     operator fun invoke(

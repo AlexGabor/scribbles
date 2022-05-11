@@ -15,4 +15,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "scribbles"
 include(":app")
-
+include(":ui:theme")
+include(":feature:new-service")
+include(":library:directory-browser")

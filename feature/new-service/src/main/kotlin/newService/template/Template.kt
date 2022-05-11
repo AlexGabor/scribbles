@@ -1,9 +1,9 @@
-package newservice.template
+package newService.template
 
-import newservice.converter.kebabToCamelCase
-import newservice.model.NewService
-import newservice.model.Project
-import newservice.model.Subproject
+import newService.converter.kebabToCamelCase
+import newService.model.NewService
+import newService.model.Project
+import newService.model.Subproject
 
 object Template {
 

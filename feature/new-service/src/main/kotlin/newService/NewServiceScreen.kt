@@ -1,4 +1,4 @@
-package newservice
+package newService
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,7 +19,6 @@ import directorybrowser.DirectoryResult
 import directorybrowser.SelectDirectoryButton
 import theme.Body
 import theme.Title
-
 
 @Composable
 fun NewServiceScreen(
