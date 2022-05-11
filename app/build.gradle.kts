@@ -9,6 +9,7 @@ plugins {
 dependencies {
     implementation(project(":ui:theme"))
     implementation(project(":feature:new-service"))
+    implementation(project(":feature:rename-package"))
     testImplementation(kotlin("test"))
     implementation(compose.desktop.currentOs)
 }

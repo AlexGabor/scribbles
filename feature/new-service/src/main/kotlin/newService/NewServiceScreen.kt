@@ -1,22 +1,17 @@
 package newService
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Button
 import androidx.compose.material.Checkbox
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import directorybrowser.DirectoryResult
-import directorybrowser.SelectDirectoryButton
+import projectInfo.ProjectInfo
+import rememberProjectInfoState
 import theme.Body
 import theme.Title
 
@@ -24,12 +19,19 @@ import theme.Title
 fun NewServiceScreen(
     state: NewServiceState = rememberNewServiceScreenState(),
 ) {
+    val projectInfoState = rememberProjectInfoState().apply {
+        state.selectedPath = this.selectedPath
+        state.packageName = this.packageName
+    }
+
+    LaunchedEffect(Unit) { projectInfoState.selectedPath = state.selectedPath }
+
     LazyColumn(
         Modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        item { ProjectInfo(state) }
+        item { ProjectInfo(projectInfoState) }
         item { ServiceName(state) }
         item { Subprojects(state) }
         item { CreateButton(state) }
@@ -68,29 +70,6 @@ private fun ServiceName(state: NewServiceState) {
         if (!state.validServiceName) {
             Body("Invalid gradle module name")
         }
-    }
-}
-
-@Composable
-private fun ProjectInfo(state: NewServiceState) {
-    Row {
-        Column(Modifier.weight(1f)) {
-            Title("Project:")
-            Body(state.selectedPath ?: "No project selected")
-
-            if (state.selectedPath != null && !state.validProjectPath) {
-                Body("Invalid Project Path")
-            }
-            Spacer(Modifier.height(8.dp))
-
-            if (state.validProjectPath) {
-                Title("Package:")
-                Body(state.packageName ?: "Could not find package name")
-            }
-        }
-        SelectDirectoryButton(onDirectoryResult = { directoryResult ->
-            if (directoryResult is DirectoryResult.Selection) state.onPath(directoryResult.path)
-        })
     }
 }
 

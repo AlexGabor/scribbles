@@ -17,4 +17,6 @@ rootProject.name = "scribbles"
 include(":app")
 include(":ui:theme")
 include(":feature:new-service")
+include(":feature:rename-package")
 include(":library:directory-browser")
+include(":library:project-info")

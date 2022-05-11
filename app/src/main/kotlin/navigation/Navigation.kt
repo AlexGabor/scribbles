@@ -1,6 +1,5 @@
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import cli.CliValues
 import cli.Feature
@@ -9,6 +8,8 @@ import home.Home
 import navigation.Toolbar
 import newService.NewServiceState
 import newService.rememberNewServiceScreenState
+import renamePackage.RenamePackageState
+import renamePackage.rememberRenamePackageState
 
 @Composable
 fun Navigation(
@@ -25,9 +26,7 @@ fun Navigation(
                     state.navigate(entry.toScreen())
                 })
                 Screen.NewService -> NewServiceScreen(cliValues)
-                Screen.RenamePackage -> {
-                    Text("RenamePackage")
-                }
+                Screen.RenamePackage -> RenamePackageScreen(cliValues)
             }
         }
     }
@@ -39,7 +38,17 @@ fun NewServiceScreen(
     state: NewServiceState = rememberNewServiceScreenState(),
 ) {
     newService.NewServiceScreen(state.apply {
-        onPath(cliValues.projectPath ?: System.getProperty("user.dir"))
+        selectedPath = cliValues.projectPath ?: System.getProperty("user.dir")
+    })
+}
+
+@Composable
+fun RenamePackageScreen(
+    cliValues: CliValues,
+    state: RenamePackageState = rememberRenamePackageState(),
+) {
+    RenamePackageScreen(state.apply {
+        selectedPath = cliValues.projectPath ?: System.getProperty("user.dir")
     })
 }
 
