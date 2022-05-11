@@ -1,12 +1,12 @@
 import androidx.compose.runtime.*
 
 @Composable
-fun rememberNavigationState(): NavigationState {
-    return remember { NavigationState() }
+fun rememberNavigationState(initialScreen: Screen = Screen.Home): NavigationState {
+    return remember { NavigationState(initialScreen) }
 }
 
-class NavigationState {
-    var screen: Screen by mutableStateOf(Screen.Home)
+class NavigationState(initialScreen: Screen) {
+    var screen: Screen by mutableStateOf(initialScreen)
         private set
 
     fun navigate(screen: Screen) {
