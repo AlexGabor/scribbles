@@ -34,4 +34,4 @@ Scribbles uses by default the directory it was started from as the project direc
 
 ## Contribute
 
-Run with `gradle run`
+Run with `gradle app:run`
