@@ -7,7 +7,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import projectInfo.ProjectInfo
@@ -16,14 +15,14 @@ import renamePackage.rememberRenamePackageState
 
 @Composable
 fun RenamePackageScreen(
-    state: RenamePackageState = rememberRenamePackageState()
+    state: RenamePackageState = rememberRenamePackageState(),
+    initialPath: String? = null,
 ) {
     val projectInfoState = rememberProjectInfoState().apply {
+        initialPath?.let { this.selectedPath = initialPath }
         state.selectedPath = this.selectedPath
         state.packageName = this.packageName
     }
-
-    LaunchedEffect(Unit) { projectInfoState.selectedPath = state.selectedPath }
 
     LazyColumn(
         Modifier.fillMaxSize(),

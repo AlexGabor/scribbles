@@ -37,9 +37,10 @@ fun NewServiceScreen(
     cliValues: CliValues,
     state: NewServiceState = rememberNewServiceScreenState(),
 ) {
-    newService.NewServiceScreen(state.apply {
-        selectedPath = cliValues.projectPath ?: System.getProperty("user.dir")
-    })
+    newService.NewServiceScreen(
+        state = state,
+        initialPath = cliValues.projectPath ?: System.getProperty("user.dir")
+    )
 }
 
 @Composable
@@ -47,9 +48,10 @@ fun RenamePackageScreen(
     cliValues: CliValues,
     state: RenamePackageState = rememberRenamePackageState(),
 ) {
-    RenamePackageScreen(state.apply {
-        selectedPath = cliValues.projectPath ?: System.getProperty("user.dir")
-    })
+    RenamePackageScreen(
+        state = state,
+        initialPath = cliValues.projectPath ?: System.getProperty("user.dir")
+    )
 }
 
 private fun Entry.toScreen(): Screen = when (this) {
