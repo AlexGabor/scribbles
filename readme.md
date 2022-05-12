@@ -22,6 +22,12 @@ It also adds `build.gradle` files for each module and optionally an `AndroidMani
 
 > Note: It only supports gradle.kts
 
+### Rename Package
+
+Renames the directories that represent the package name of the app. 
+
+For example, it can change: `com/alexgabor/template` to `com/new/project`  
+
 ## How to install 
 
 1. Extract the zip for your platform
