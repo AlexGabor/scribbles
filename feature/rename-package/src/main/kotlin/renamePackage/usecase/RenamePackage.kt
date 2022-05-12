@@ -7,10 +7,11 @@ fun interface RenamePackage {
 }
 
 class RenamePackageUseCase : RenamePackage {
+    private val fileSeparator = System.getProperty("file.separator")
     override fun invoke(projectPath: String, oldPackage: String, newPackage: String) {
         val projectFile = File(projectPath)
-        val oldPackagePath = oldPackage.replace('.', '/')
-        val newPackagePath = newPackage.replace('.', '/')
+        val oldPackagePath = oldPackage.replace(".", fileSeparator)
+        val newPackagePath = newPackage.replace(".", fileSeparator)
 
         renameDirectories(projectFile, oldPackagePath, newPackagePath)
         deleteOldPackage(projectFile, oldPackagePath)
@@ -19,7 +20,7 @@ class RenamePackageUseCase : RenamePackage {
     private fun deleteOldPackage(file: File, oldPackagePath: String) {
         if (file.list().isNullOrEmpty() && file.absolutePath.contains(oldPackagePath)) {
             var toBeDeleted = file
-            for(i in oldPackagePath.split("/").indices) {
+            for(i in oldPackagePath.split(fileSeparator).indices) {
                 toBeDeleted.delete()
                 toBeDeleted = toBeDeleted.parentFile
             }
